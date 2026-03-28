@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  app1:
+    build: ./app1
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://admin:admin@db:5432/tasks
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: tasks
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - //var/run:/var/run:ro
+      - //sys:/sys:ro
+      - //var/lib/docker/:/var/lib/docker:ro
+    privileged: true
+
+volumes:
+  db-data:
