@@ -1,0 +1,101 @@
+<mxfile host="65bd71144e">
+    <diagram name="Architecture Cloud" id="architecture">
+        <mxGraphModel dx="1055" dy="728" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="Architecture du Mini Projet Cloud" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="310" y="20" width="550" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="docker_network" value="Réseau Docker : mini-projet-cloud_default (bridge)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0050ef;strokeWidth=3;dashed=1;verticalAlign=top;fontStyle=1;fontSize=14;fontColor=#0050ef;arcSize=6;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="80" width="1050" height="680" as="geometry"/>
+                </mxCell>
+                <mxCell id="client" value="💻 Client / Navigateur" style="shape=actor;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="110" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="nginx" value="🌐 Nginx&#xa;(Reverse Proxy + SSL)&#xa;Ports: 443 (HTTPS), 5000 (HTTP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="220" width="260" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_client_nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;strokeWidth=2;" parent="1" source="client" target="nginx" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label_client_nginx" value="HTTPS:443 / HTTP:5000" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" parent="edge_client_nginx" vertex="1" connectable="0">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="app1" value="🐍 Flask App (app1)&#xa;API REST /tasks&#xa;Port interne: 5000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="410" y="380" width="240" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_nginx_app" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;strokeWidth=2;" parent="1" source="nginx" target="app1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label_nginx_app" value="proxy_pass :5000" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" parent="edge_nginx_app" vertex="1" connectable="0">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="db" value="💾 PostgreSQL 14&#xa;BDD: tasks&#xa;Port interne: 5432" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="540" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_app_db" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;strokeWidth=2;" parent="1" source="app1" target="db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label_app_db" value="SQLAlchemy&#xa;postgresql://admin:***@db:5432/tasks" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" parent="edge_app_db" vertex="1" connectable="0">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="redis" value="⚡ Redis 7&#xa;Cache&#xa;Port: 6379" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="550" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_app_redis" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#333333;strokeWidth=2;" parent="1" source="app1" target="redis" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label_app_redis" value="Cache GET/SET&#xa;redis:6379" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" parent="edge_app_redis" vertex="1" connectable="0">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="volume_db" value="📁 Volume: db-data&#xa;/var/lib/postgresql/data" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="680" width="220" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_db_volume" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;strokeWidth=1;dashed=1;" parent="1" source="db" target="volume_db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="volume_certs" value="📁 Bind Mount: ./certs&#xa;Certificats SSL (selfsigned)" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="220" width="230" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_nginx_certs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;strokeWidth=1;dashed=1;" parent="1" source="nginx" target="volume_certs" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="volume_nginxconf" value="📁 Bind Mount: ./nginx.conf" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="300" width="230" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_nginx_conf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;strokeWidth=1;dashed=1;" parent="1" source="nginx" target="volume_nginxconf" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cadvisor" value="📊 cAdvisor v0.47&#xa;Monitoring conteneurs&#xa;Port: 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="380" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="volume_cadvisor" value="📁 Bind Mounts (read-only)&#xa;/var/run, /sys, /var/lib/docker" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="490" width="240" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_cadvisor_vol" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;strokeWidth=1;dashed=1;" parent="1" source="cadvisor" target="volume_cadvisor" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cicd" value="⚙ GitHub Actions CI/CD&#xa;Build → Push Docker Hub&#xa;(eyamodokerhub/flask-app1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#333333;fontSize=11;fontStyle=1;dashed=1;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="420" width="260" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_cicd_app" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;strokeWidth=1;dashed=1;" parent="1" source="cicd" target="app1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label_cicd" value="docker build &amp; push" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" parent="edge_cicd_app" vertex="1" connectable="0">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

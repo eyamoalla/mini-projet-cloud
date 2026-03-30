@@ -16,10 +16,18 @@ class Task(db.Model):
     title = db.Column(db.String(200), nullable=False)
 
 
-with app.app_context():
-    db.create_all()
+import time
 
 cache = redis.Redis(host='redis', port=6379)
+
+for attempt in range(10):
+    try:
+        with app.app_context():
+            db.create_all()
+        break
+    except Exception:
+        print(f"DB not ready, retrying ({attempt+1}/10)...")
+        time.sleep(3)
 
 
 @app.route('/tasks', methods=['GET'])
