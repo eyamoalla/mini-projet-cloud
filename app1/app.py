@@ -3,12 +3,15 @@ from flask import Flask, jsonify, request, Response
 from flask_sqlalchemy import SQLAlchemy
 import redis
 import json
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'postgresql://admin:admin@db:5432/tasks'
 )
 db = SQLAlchemy(app)
+
+metrics = PrometheusMetrics(app)
 
 
 class Task(db.Model):

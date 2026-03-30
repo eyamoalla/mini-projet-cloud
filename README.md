@@ -11,6 +11,10 @@ Application de gestion de tâches (CRUD) déployée avec Docker Compose dans une
 | **redis**    | Redis 7             | Cache (TTL 60s)       |
 | **nginx**    | Nginx               | Reverse proxy + SSL   |
 | **cadvisor** | cAdvisor v0.47      | Monitoring conteneurs |
+| **elasticsearch** | Elasticsearch 8.11 | Moteur de recherche |
+| **kibana**   | Kibana 8.11         | Visualisation des données |
+| **prometheus** | Prometheus         | Collecte de métriques     |
+| **grafana**  | Grafana              | Dashboards de monitoring  |
 
 ## Prérequis
 
@@ -40,6 +44,7 @@ curl -X DELETE https://localhost/tasks/1
 | GET     | `/tasks`      | Liste toutes les tâches            |
 | POST    | `/tasks`      | Créer une tâche `{"title": "..."}` |
 | DELETE  | `/tasks/<id>` | Supprimer une tâche                |
+| GET     | `/metrics`  | Métriques Prometheus               |
 
 ## Ports
 
@@ -48,6 +53,9 @@ curl -X DELETE https://localhost/tasks/1
 | 443  | HTTPS (Nginx)         |
 | 5000 | HTTP (Nginx → Flask)  |
 | 8080 | cAdvisor (Monitoring) |
+| 5601 | Kibana                |
+| 9090 | Prometheus            |
+| 3000 | Grafana               |
 
 ## CI/CD
 
